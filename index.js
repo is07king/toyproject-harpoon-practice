@@ -16,6 +16,8 @@ for (var rows = 0; rows < CANVAS_ROWS; rows++) {
     }
 }
 
+
+
 app.use(express.static("public"))
 
 io.on("connection", socket => {
@@ -28,3 +30,4 @@ io.on("connection", socket => {
 })
 
 server.listen(3000)
+console.log("server open")

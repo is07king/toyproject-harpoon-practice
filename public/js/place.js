@@ -20,4 +20,35 @@ $(document).ready(() => {
             color: $("#color").val()
         })
     })
+
+    function getMousePos(canvas, event) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+    
+        const mouseX = (event.clientX - rect.left) * scaleX;
+        const mouseY = (event.clientY - rect.top) * scaleY;
+    
+        // Ensure the mouse coordinates are within the canvas range
+        const canvasX = Math.min(canvas.width, Math.max(0, mouseX)) / 10;
+        const canvasY = Math.min(canvas.height, Math.max(0, mouseY)) / 10;
+    
+        return { x: canvasX, y: canvasY };
+    }
+    
+    // Example usage
+    canvas.addEventListener('click', event => {
+        const mousePos = getMousePos(canvas, event);
+        console.log('Mouse position on canvas:', mousePos);
+    
+        handleCanvasClick(mousePos);
+    });
+    
+    function handleCanvasClick(mousePos) {
+        socket.emit("color", {
+            col: parseInt(Math.round(mousePos.x)),
+            row: parseInt(Math.round(mousePos.y)),
+            color: $("#color").val()
+        });
+    }
 })
